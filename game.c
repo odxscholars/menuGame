@@ -12,9 +12,8 @@ int customerMenu(){
         printf("Welcome to the customer menu. Please select an option: ");
         printf("\n1. Order\n");
         printf("2. Pay\n");
-        printf("3. Display Customer Number\n");
-        printf("4. Display status\n");
-        printf("5. Exit\n");
+        printf("3. Display status\n");
+        printf("4. Exit\n");
         scanf("%d", &choice);
         if (choice < 0 || choice > 5){
             printf("Invalid choice. Please try again.\n");
@@ -92,7 +91,65 @@ void displayMenu(char foodMenu[5][15], int prices[]){
     scanf(" %c", &temp);
 
 }
-void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], int * dishesServedForTheDay){
+
+int countOrders(int orderArr[5][13]){
+    int count = 0;
+    for(int i = 0; i < 5; i++){
+        if (orderArr[i][0] != -1){
+            count++;
+        }
+    }
+    return count;
+
+}
+
+void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
+    int orderCount = countOrders(orderArr);
+    if (orderCount != 0){
+        for(int i = 0; i < orderCount; i++){
+            printf("- Customer %d's order:\n", orderArr[i][0]);
+        }
+        int customerNum;
+        printf("For who are you paying for? ");
+        scanf("%d", &customerNum);
+        if (customerNum > 0 && customerNum <= orderCount){
+            int total = 0;
+            printf("Here is your receipt:\n");
+            printf("\n\n---RECEIPT---\n");
+            printf("Customer #: %d\n", orderArr[customerNum-1][0]);
+            printf("# of items: %d\n", orderArr[customerNum-1][2]);
+            printf("Items: \n");
+            int count = 1;
+            
+            for(int i = 3; i <= orderArr[customerNum-1][2] * 3; i+=3){
+                printf("%d. %d-%s: %d\n",count,orderArr[customerNum-1][i],foodMenu[orderArr[customerNum-1][i]], prices[orderArr[customerNum-1][i]]);
+                total += prices[orderArr[customerNum-1][i]];
+                count++;
+            }
+            printf("\n--------------\n");
+            printf("Total: %d\n", total);
+            printf("--------------\n");
+            char temp;
+            printf("Press y to pay using e-wallet ");
+            scanf(" %c", &temp);
+            if (temp == 'y'){
+                orderArr[customerNum-1][1] = 1;
+                printf("Payment successful!\n");
+                printf("Thank you for your purchase!\n");
+                printf("Press anything to exit ");
+                scanf(" %c", &temp);
+            }
+        }
+    }else{
+        printf("There are no orders to pay for.\n");
+        char temp;
+        printf("Press anything to exit ");
+        scanf(" %c", &temp);
+    }   
+
+}
+
+void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
     //look for empty slot in orderArr
     int index = -1;
     for(int i = 0; i < 5; i++){
@@ -136,13 +193,13 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], 
                         totalPrice += prices[orderNumber];
                         //print all
                         
-                        *dishesServedForTheDay++;
+                        
 
                     }
                 }
                 orderArr[index][12] = totalPrice;
                 
-                printf("---RECEIPT---");
+                printf("---RECEIPT---\n");
                 printf("Order number: %d\n", orderArr[index][0]);
                 printf("Order status: %d\n", orderArr[index][1]);
                 printf("Order quantity: %d\n", orderArr[index][2]);
@@ -166,6 +223,26 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], 
 
     }
 
+
+}
+
+void customerDisplayStatus( int orderArr[5][13]){
+    int nOrder = countOrders(orderArr);
+    if(nOrder > 0){
+        for(int i = 0; i < nOrder; i++){
+            //TERNARY OPERATOR
+            printf("Customer %d's order status: %s\n", orderArr[i][0], orderArr[i][1] == 0 ? "Booking" : orderArr[i][1] == 1 ? "Waiting" : "Received order");
+        
+        }
+        char temp;
+        printf("Press anything to exit ");
+        scanf(" %c", &temp);
+    }else{
+        printf("There are no orders to display.\n");
+        char temp;
+        printf("Press anything to exit ");
+        scanf(" %c", &temp);
+    }
 
 }
 int main(){
@@ -213,11 +290,19 @@ int main(){
 
             //CUSTOMER
             if (choice == 1){
+                bool stayInCustomerMenu = true;
                 int customerChoice = customerMenu();
                 if (customerChoice == 1){
-                    customerMakeOrder(food, foodPrice, listOfOrders, &dishesServedForTheDay);
+                    customerMakeOrder(food, foodPrice, listOfOrders);
 
+                }else if(customerChoice == 2){
+                    customerPayForOrder(food, foodPrice, listOfOrders);
+                }else if(customerChoice == 3){
+                    customerDisplayStatus(listOfOrders);
+                }else if (customerChoice == 4){
+                    goBackToMenu = true;
                 }
+            
 
 
 
