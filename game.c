@@ -70,9 +70,9 @@ int menu(){
     
 
 }
-void initializeOrderArr(int arr[5][13]){
+void initializeOrderArr(int arr[5][14]){
     for(int i = 0; i < 5; i++){
-        for(int j = 0; j < 13; j++){
+        for(int j = 0; j < 14; j++){
             arr[i][j] = -1;
         }
     }
@@ -92,7 +92,7 @@ void displayMenu(char foodMenu[5][15], int prices[]){
 
 }
 
-int countOrders(int orderArr[5][13]){
+int countOrders(int orderArr[5][14]){
     int count = 0;
     for(int i = 0; i < 5; i++){
         if (orderArr[i][0] != -1){
@@ -103,7 +103,7 @@ int countOrders(int orderArr[5][13]){
 
 }
 
-void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
+void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[5][14]){
     int orderCount = countOrders(orderArr);
     if (orderCount != 0){
         for(int i = 0; i < orderCount; i++){
@@ -149,7 +149,7 @@ void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]
 
 }
 
-void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
+void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][14]){
     //look for empty slot in orderArr
     int index = -1;
     for(int i = 0; i < 5; i++){
@@ -198,6 +198,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
                     }
                 }
                 orderArr[index][12] = totalPrice;
+                orderArr[index][13] = 0;
                 
                 printf("---RECEIPT---\n");
                 printf("Order number: %d\n", orderArr[index][0]);
@@ -226,7 +227,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13]){
 
 }
 
-void customerDisplayStatus( int orderArr[5][13]){
+void customerDisplayStatus( int orderArr[5][14]){
     int nOrder = countOrders(orderArr);
     if(nOrder > 0){
         for(int i = 0; i < nOrder; i++){
@@ -245,6 +246,85 @@ void customerDisplayStatus( int orderArr[5][13]){
     }
 
 }
+
+
+void sendOrderToChef(int orderArr[5][14]){
+    int indexOfOrdersNotSent[5] = {-1,-1,-1,-1,-1};
+    int count = 0;
+    for(int i = 0; i < 5; i++){
+        if(orderArr[i][0] != -1 && orderArr[i][13] == 0){
+            indexOfOrdersNotSent[i] = 0;
+            count++;
+        }else if(orderArr[i][0] != -1 && orderArr[i][13] == 1){
+            indexOfOrdersNotSent[i] = 1;
+        }else{
+            
+            indexOfOrdersNotSent[i] = -1;
+        }
+    }
+    if (count != 0){
+         printf("Orders to send to chef: \n");
+        for(int i = 0; i < 5; i++){
+            if (indexOfOrdersNotSent[i] == 0){
+                printf("%d. Customer %d's order \n", i+1, orderArr[i][0]);
+            }
+        }
+        int sendToChef;
+        printf("Enter the number of the order you want to send to the chef: ");
+        scanf("%d", &sendToChef);
+        if (sendToChef <= 0 || sendToChef > 5){
+            printf("Invalid choice. Please try again.\n");
+            printf("Orders must be greater than 0 and less than 5.\n");
+        }
+        else{
+            orderArr[sendToChef-1][13] = 1;
+            printf("Order sent to chef!\n");
+            char temp;
+            printf("Press anything to exit ");
+            scanf(" %c", &temp);
+        }
+
+    }else{
+        printf("There are no orders to send to the chef.\n");
+        char temp;
+        printf("Press anything to exit ");
+        scanf(" %c", &temp);
+    }
+   
+    
+
+}
+void managerListPendingOrder(char food[5][15], int orderArr[5][14], int foodPrices[] ){
+    printf("Orders that are yet to be cooked by the chef: \n");
+    for(int i = 0; i < 5; i++){
+        if(orderArr[i][0] != -1 && orderArr[i][13] == 1){
+            printf("Customer %d's order: \n", orderArr[i][0]);
+            for(int j = 3; j <= orderArr[i][2] * 3; j+=3){
+                if (orderArr[i][j+2] == 0){
+                    printf("- %d %s \n", orderArr[i][j], food[orderArr[i][j]]);
+                }
+            }
+
+        }
+    }
+    char temp;
+    printf("Press anything to exit ");
+    scanf(" %c", &temp);
+
+}
+
+void listCustomersAndOrderedFood(int orderArr[5][14], int foodPrices[], char food[5][15]){
+    for(int i = 0; i < 5; i++){
+        if (orderArr[i][0] != -1 && orderArr[i][1] == 1){
+            printf("Customer %d's order: \n", orderArr[i][0]);
+            for(int j = 3; j <= orderArr[i][2] * 3; j+=3){
+                printf("- %d %s \n", orderArr[i][j], food[orderArr[i][j]]);
+            }
+        }
+    }
+
+}
+
 int main(){
     //FOOD
     char food[5][15] = {
@@ -278,8 +358,9 @@ int main(){
     //first will be dish number
     //second will be dish price
     //third will be dish status
-    //last column will be total price of all dishes
-    int listOfOrders[5][13];
+    //second to the last column will be total price of all dishes
+    //last column will be status if sent to the kitchen or not
+    int listOfOrders[5][14];
     initializeOrderArr(listOfOrders);
 
     while(startGame){
@@ -312,7 +393,13 @@ int main(){
                 int managerChoice = managerMenu();
                 if (managerChoice == 1){
                     displayMenu(food, foodPrice);
+                }else if(managerChoice == 2){
+                    sendOrderToChef(listOfOrders);
+                }else if(managerChoice == 3){
+                    managerListPendingOrder(food, listOfOrders, foodPrice);
                 }
+
+            }else if(choice ==3){
 
             }
 
