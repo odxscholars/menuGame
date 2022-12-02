@@ -444,7 +444,20 @@ void packFood(int orderArr[MAXROW][14], int foodPrices[], char food[5][15]){
     }
 }
 
+void listCurrentCustomers(int orderArr[MAXROW][14], char food[5][15], int foodPrice[5]){
+    for(int i = 0; i < MAXROW; i++){
+        if (orderArr[i][1] == 1){
+            printf("Customer %d's order: \n", orderArr[i][0]);
+            for(int j = 3; j <= orderArr[i][2] * 3; j+=3){
+                printf("- %d %s \n", orderArr[i][j], food[orderArr[i][j]]);
+            }
+        }
+    }
+    char temp;
+    printf("Press anything to exit ");
+    scanf(" %c", &temp);
 
+}
 
 
 int main(){
@@ -526,6 +539,9 @@ int main(){
                     sendOrderToChef(listOfOrders);
                 }else if(managerChoice == 3){
                     managerListPendingOrder(food, listOfOrders, foodPrice);
+                }else if(managerChoice == 4){
+                    listCurrentCustomers(listOfOrders, food, foodPrice);
+                    
                 }else if(managerChoice == 9){
                     goBackToMenu = true;
                 }
