@@ -4,7 +4,7 @@
 //ASSUMPTIONS:
 //1. EACH COMPLETED ORDER IS ASSUMED TO BE FROM A DIFFERENT CUSTOMER
 //2. EACH CUSTOMER IS ASSUMED TO HAVE ONLY ONE ORDER
-
+#define MAXROW 10
 int customerMenu(){
     int choice;
     bool goBack = false;
@@ -360,7 +360,7 @@ int main(){
     //third will be dish status
     //second to the last column will be total price of all dishes
     //last column will be status if sent to the kitchen or not
-    int listOfOrders[5][14];
+    int listOfOrders[MAXROW][14];
     initializeOrderArr(listOfOrders);
 
     while(startGame){
