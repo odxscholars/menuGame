@@ -151,6 +151,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], 
                     printf("Price: %d\n", orderArr[index][3*i + 4]);
                     printf("Status: %d\n", orderArr[index][3*i + 5]);
                 }
+                printf("Total Price: %d\n", orderArr[index][12]);
 
                 printf("Your order has been placed.\n");
                 printf("To begin with the process of making your food, you must pay for it first.\n");
