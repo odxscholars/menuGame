@@ -117,6 +117,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], 
                 printf("Invalid choice. Please try again.\n");
                 printf("Orders must be greater than 0 and less than 4.\n");
             }else{
+                int totalPrice = 0;
                 orderArr[index][0] = index + 1;
                 orderArr[index][1] = 0;
                 orderArr[index][2] = orderQty;
@@ -132,12 +133,15 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[5][13], 
                         orderArr[index][3*i + 3] = orderNumber;
                         orderArr[index][3*i + 4] = prices[orderNumber];
                         orderArr[index][3*i + 5] = 0;
+                        totalPrice += prices[orderNumber];
                         //print all
                         
                         *dishesServedForTheDay++;
 
                     }
                 }
+                orderArr[index][12] = totalPrice;
+                
                 printf("---RECEIPT---");
                 printf("Order number: %d\n", orderArr[index][0]);
                 printf("Order status: %d\n", orderArr[index][1]);
