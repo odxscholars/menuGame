@@ -179,8 +179,9 @@ void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW
 
         if (customerNum > 0  && orderArr[customerNum-1][1] == 0){
             int total = 0;
-            printf("Here is your receipt:\n");
-            printf("\n\n---RECEIPT---\n");
+            printf("-----GRIZZ DINER-----\n");
+            printf(" Taft Avenue, Manila\n\n");
+            printf("------RECEIPT------\n");
             printf("Customer #: %d\n", orderArr[customerNum-1][0]);
             printf("# of items: %d\n", orderArr[customerNum-1][2]);
             printf("Items: \n");
@@ -256,6 +257,8 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
     if (index != -1 && countCurrentOrders(orderArr) < 5){
         bool validOrder = false;
         while(validOrder == false){
+            clearScreen();
+            printf("-----GRIZZ DINER-----\n");
             printf("Menu: \n");
             int orderQty = 0;
             for(int i = 0; i < 5; i++){
@@ -292,8 +295,10 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
                 }
                 orderArr[index][12] = totalPrice;
                 orderArr[index][13] = 0;
-                
-                printf("---RECEIPT---\n");
+                clearScreen();
+                printf("-----GRIZZ DINER-----\n");
+                printf(" Taft Avenue, Manila\n\n");
+                printf("------RECEIPT------\n");
                 printf("Order number: %d\n", orderArr[index][0]);
                 printf("Order status: %d\n", orderArr[index][1]);
                 printf("Order quantity: %d\n", orderArr[index][2]);
@@ -306,6 +311,9 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
 
                 printf("Your order has been placed.\n");
                 printf("To begin with the process of making your food, you must pay for it first.\n");
+                printf("Press anything to continue ");
+                char temp;
+                scanf(" %c", &temp);
                 validOrder = true;
                     
             }
@@ -854,7 +862,6 @@ int main(){
             if (choice == 1){
                 int customerChoice = customerMenu();
                 if (customerChoice == 1){
-                    printf("Went in 1\n");
                     customerMakeOrder(food, foodPrice, listOfOrders);
                 }else if(customerChoice == 2){
                     customerPayForOrder(food, foodPrice, listOfOrders);
