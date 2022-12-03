@@ -250,7 +250,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
             }
             printf("Enter the quantity of the food you want to order: ");
             scanf("%d", &orderQty);
-            if (orderQty < 0 || orderQty > 3){
+            if (orderQty < 1 || orderQty > 3){
                 printf("Invalid choice. Please try again.\n");
                 printf("Orders must be greater than 0 and less than 4.\n");
             }else{
