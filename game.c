@@ -200,9 +200,9 @@ void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW
             scanf(" %c", &temp);
             if (temp == 'y'){
                 orderArr[customerNum-1][1] = 1;
-                printf("Payment successful!\n");
+                printf("\nPayment successful!\n");
                 printf("Thank you for your purchase!\n");
-                printf("Press anything to exit ");
+                printf("\nPress anything to exit ");
                 scanf(" %c", &temp);
             }
         } else{
@@ -309,7 +309,7 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
                 }
                 printf("Total Price: %d\n", orderArr[index][12]);
 
-                printf("Your order has been placed.\n");
+                printf("\n\nYour order has been placed.\n");
                 printf("To begin with the process of making your food, you must pay for it first.\n");
                 printf("Press anything to continue ");
                 char temp;
