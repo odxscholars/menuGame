@@ -3,9 +3,16 @@
 
 //ASSUMPTIONS:
 //1. EACH COMPLETED ORDER IS ASSUMED TO BE FROM A DIFFERENT CUSTOMER
-//2. EACH CUSTOMER IS ASSUMED TO HAVE ONLY ONE ORDER
+//2. EACH CUSTOMER IS ASSUMED TO HAVE ONLY ONE ORDER COMPOSED OF DIFFERENT DISHES
 #define MAXROW 10
+
 int customerMenu(){
+    /*
+    
+    Description: this function displays the menu for the customer
+    @return returns the choice of the customer
+    
+    */
     int choice;
     bool goBack = false;
     while(goBack == false){
@@ -28,6 +35,11 @@ int customerMenu(){
 }
 
 int managerMenu(){
+    /*
+    Description: this function displays the menu for the manager
+    @return returns the choice of the manager
+    
+    */
     int choice;
     bool goBack = false;
     while(goBack == false){
@@ -53,7 +65,12 @@ int managerMenu(){
 }
 
 
-int menu(){
+int mainMenu(){
+    /*
+    Description: this function displays the main menu
+    @return returns the choice of the user
+    
+    */
     int choice;
     do{
         printf("1. Customer/s\n");
@@ -72,6 +89,12 @@ int menu(){
 
 }
 void initializeOrderArr(int arr[MAXROW][14]){
+    /*
+    Description: this function initializes the order array
+    @param arr is the order array
+    @return returns nothing
+    
+    */
     //this function sets everything in the array to -1
     for(int i = 0; i < MAXROW; i++){
         for(int j = 0; j < 14; j++){
@@ -86,6 +109,14 @@ void initializeOrderArr(int arr[MAXROW][14]){
 
 
 void displayMenu(char foodMenu[5][15], int prices[]){
+    /*
+    Description: this function displays the menu
+    @param foodMenu is the menu array
+    @param prices is the array of prices
+    @return returns nothing
+    
+    */
+
     printf("Food Menu:\n");
     for(int i = 0; i < 5; i++){
         printf("%d. %s: %d\n", i+1, foodMenu[i], prices[i]);
@@ -111,6 +142,14 @@ int countOrdersToPay(int orderArr[MAXROW][14]){
 
 
 void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][14]){
+    /*
+    Description: this function allows the customer to pay for their order
+    @param foodMenu is the menu array
+    @param prices is the array of prices
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
     int orderCount = countOrdersToPay(orderArr);
     if (orderCount != 0){
         for(int i = 0; i < MAXROW; i++){
@@ -165,6 +204,12 @@ void customerPayForOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW
 }
 
 int countCurrentOrders(int orderArr[MAXROW][14]){
+    /*
+    Description: this function counts the current orders
+    @param orderArr is the order array
+    @return returns the number of orders
+    
+    */
     int count = 0;
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 1 || orderArr[i][1] == 0){
@@ -175,6 +220,15 @@ int countCurrentOrders(int orderArr[MAXROW][14]){
 }
 
 void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][14]){
+    /*
+    Description: this function allows the customer to make an order
+    @param foodMenu is the menu array
+    @param prices is the array of prices
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
     //look for empty slot in orderArr
     int index = -1;
     for(int i = 0; i < MAXROW; i++){
@@ -257,6 +311,13 @@ void customerMakeOrder(char foodMenu[5][15], int prices[], int orderArr[MAXROW][
 
 void customerDisplayStatus( int orderArr[MAXROW][14]){
     
+    /*
+    Description: this function displays the status of the order
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
     
     for(int i = 0; i < MAXROW; i++){
         if(orderArr[i][0] != -1){
@@ -276,6 +337,15 @@ void customerDisplayStatus( int orderArr[MAXROW][14]){
 
 
 void sendOrderToChef(int orderArr[MAXROW][14]){
+    /*
+    Description: this function sends the order to the chef
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
+
+
     int indexOfOrdersNotSent[10] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
     int count = 0;
     for(int i = 0; i < MAXROW; i++){
@@ -332,6 +402,14 @@ void sendOrderToChef(int orderArr[MAXROW][14]){
 
 }
 void managerListPendingOrder(char food[5][15], int orderArr[MAXROW][14], int foodPrices[] ){
+    /*
+    Description: this function lists the pending orders
+    @param food is the food menu
+    @param orderArr is the order array
+    @param foodPrices is the food prices
+    @return returns nothing
+    
+    */
     printf("Orders that are yet to be cooked by the chef: \n");
     for(int i = 0; i < MAXROW; i++){
         if(orderArr[i][0] != -1 && orderArr[i][1] == 1 && orderArr[i][13] == 2){
@@ -351,6 +429,15 @@ void managerListPendingOrder(char food[5][15], int orderArr[MAXROW][14], int foo
 }
 
 void listCustomersAndOrderedFood(int orderArr[MAXROW][14], int foodPrices[], char food[5][15]){
+    /*
+    Description: this function lists the customers and their ordered food
+    @param orderArr is the order array
+    @param foodPrices is the food prices
+    @param food is the food menu
+    @return returns nothing
+    
+    */
+
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][0] != -1 && orderArr[i][1] != 2){
             printf("Customer %d's order: \n", orderArr[i][0]);
@@ -362,6 +449,12 @@ void listCustomersAndOrderedFood(int orderArr[MAXROW][14], int foodPrices[], cha
 
 }
 int chefMenu(){
+    /*
+    Description: this function displays the chef menu
+    @param none
+    @return returns the choice of the chef
+    
+    */
     int choice;
     do{
 
@@ -381,6 +474,14 @@ int chefMenu(){
 
 
 void receiveOrder(int orderArr[MAXROW][14]){
+
+    /*
+    Description: this function receives the order from the manager
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
     int count = 0;
     printf("Orders yet to receive by chef\n");
     for(int i = 0; i < MAXROW; i++){
@@ -412,6 +513,15 @@ void receiveOrder(int orderArr[MAXROW][14]){
 }
 
 void cookNDishes(int orderArr[MAXROW][14], int n, int foodPrices[], char food[5][15]){
+    /*
+    Description: this function cooks n dishes
+    @param orderArr is the order array
+    @param n is the number of dishes to cook
+    @param foodPrices is the food prices
+    @param food is the food menu
+    @return returns nothing
+    
+    */
     printf("Cook %d dishes?\n", n);
     char temp;
     printf("Press anything to start cooking ");
@@ -434,6 +544,14 @@ void cookNDishes(int orderArr[MAXROW][14], int n, int foodPrices[], char food[5]
 
 
 void packFood(int orderArr[MAXROW][14], int foodPrices[], char food[5][15]){
+    /*
+    Description: this function packs the food
+    @param orderArr is the order array
+    @param foodPrices is the food prices
+    @param food is the food menu
+    @return returns nothing
+    
+    */
     printf("These are the dishes to be packed: \n");
     int indexes[MAXROW][2];
     int count = 1;
@@ -465,6 +583,14 @@ void packFood(int orderArr[MAXROW][14], int foodPrices[], char food[5][15]){
 }
 
 void listCurrentCustomers(int orderArr[MAXROW][14], char food[5][15], int foodPrice[5]){
+    /*
+    Description: this function lists the current customers
+    @param orderArr is the order array
+    @param food is the food menu
+    @param foodPrice is the food prices
+    @return returns nothing
+    
+    */
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 1){
             printf("Customer %d's order: \n", orderArr[i][0]);
@@ -480,6 +606,15 @@ void listCurrentCustomers(int orderArr[MAXROW][14], char food[5][15], int foodPr
 }
 
 void sendDriver(int orderArr[MAXROW][14], char food[5][15], int foodPrice[5]){
+    /*
+    Description: this function sends the driver
+    @param orderArr is the order array
+    @param food is the food menu
+    @param foodPrice is the food prices
+    @return returns nothing
+    
+    */
+
     //we can only send driver if all of the food in one order is packed + it is not yet delivered
     int foodQty = -1;
     int count = 0;
@@ -530,6 +665,13 @@ void sendDriver(int orderArr[MAXROW][14], char food[5][15], int foodPrice[5]){
 }
 
 void displayIncome(int orderArr[MAXROW][14]){
+    /*
+    Description: this function displays the income
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
     int income = 0;
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 1){
@@ -545,6 +687,14 @@ void displayIncome(int orderArr[MAXROW][14]){
 }
 
 void displayDishesServedForTheDay(int orderArr[MAXROW][14], char food[5][15], int foodPrice[5]){
+    /*
+    Description: this function displays the dishes served for the day
+    @param orderArr is the order array
+    @param food is the food menu
+    @param foodPrice is the food prices
+    @return returns nothing
+    
+    */
     int count =0;
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 2){
@@ -563,6 +713,12 @@ void displayDishesServedForTheDay(int orderArr[MAXROW][14], char food[5][15], in
 }
 
 void setOrderArrToEmpty(int orderArr[MAXROW][14]){
+    /*
+    Description: this function sets the order array to empty
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
     for(int i = 0; i < MAXROW; i++){
         for(int j = 0; j < 14; j++){
             orderArr[i][j] = -1;
@@ -571,6 +727,13 @@ void setOrderArrToEmpty(int orderArr[MAXROW][14]){
 }
 
 void closeRestaurant(int orderArr[MAXROW][14]){
+    /*
+    Description: this function closes the restaurant
+    @param orderArr is the order array
+    @return returns nothing
+    
+    */
+
     printf("Closed the restaurant.\n");
     char temp;
     setOrderArrToEmpty(orderArr);
@@ -581,6 +744,13 @@ void closeRestaurant(int orderArr[MAXROW][14]){
 }
 
 int countCustomersServedForTheDay(int orderArr[MAXROW][14]){
+    /*
+    Description: this function counts the customers served for the day
+    @param orderArr is the order array
+    @return returns the number of customers served
+    
+    */
+
     int count = 0;
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 2){
@@ -591,6 +761,12 @@ int countCustomersServedForTheDay(int orderArr[MAXROW][14]){
 }
 
 int countDishesServedForTheDay(int orderArr[MAXROW][14]){
+    /*
+    Description: this function counts the dishes served for the day
+    @param orderArr is the order array
+    @return returns the number of dishes served
+    
+    */
     int count = 0;
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][1] == 2){
@@ -648,7 +824,7 @@ int main(){
 
     }while(nDishes > 3 || nDishes < 1);
     while(startGame){
-        int choice = menu();
+        int choice = mainMenu();
         bool goBackToMenu = false;
         while(goBackToMenu == false){
 
