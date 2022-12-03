@@ -72,6 +72,7 @@ int menu(){
 
 }
 void initializeOrderArr(int arr[MAXROW][14]){
+    //this function sets everything in the array to -1
     for(int i = 0; i < MAXROW; i++){
         for(int j = 0; j < 14; j++){
             arr[i][j] = -1;
@@ -97,6 +98,7 @@ void displayMenu(char foodMenu[5][15], int prices[]){
 
 int countOrders(int orderArr[MAXROW][14]){
     int count = 0;
+    //counts how many orders there are
     for(int i = 0; i < MAXROW; i++){
         if (orderArr[i][0] != -1){
             count++;
