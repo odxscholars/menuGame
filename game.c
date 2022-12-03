@@ -1,10 +1,19 @@
 #include<stdio.h>
 #include<stdbool.h>
-
+#include<stdlib.h>
 //ASSUMPTIONS:
 //1. EACH COMPLETED ORDER IS ASSUMED TO BE FROM A DIFFERENT CUSTOMER
 //2. EACH CUSTOMER IS ASSUMED TO HAVE ONLY ONE ORDER COMPOSED OF DIFFERENT DISHES
 #define MAXROW 10
+
+void clearScreen(){
+    //check if system is UNIX or Windows
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 int customerMenu(){
     /*
@@ -20,7 +29,9 @@ int customerMenu(){
         printf("\n1. Order\n");
         printf("2. Pay\n");
         printf("3. Display status\n");
-        printf("4. Exit\n");
+        printf("4. Exit\n\n");
+
+        printf("Enter your choice: ");
         scanf("%d", &choice);
         if (choice < 0 || choice > 5){
             printf("Invalid choice. Please try again.\n");
@@ -52,7 +63,8 @@ int managerMenu(){
         printf("6. Display income for the day.\n");
         printf("7. Display dishes served for the day.\n");
         printf("8. Close Restaurant.\n");
-        printf("9. Exit\n");
+        printf("9. Exit\n\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
         if (choice < 1 || choice > 9){
             printf("Invalid choice. Please try again.\n");
@@ -73,11 +85,12 @@ int mainMenu(){
     */
     int choice;
     do{
+        printf("Please select an option below: \n");
         printf("1. Customer/s\n");
         printf("2. Manager\n");
         printf("3. Chef\n");
         printf("4. Exit\n");
-        printf("Enter your choice: ");
+        printf("\nEnter your choice: ");
         scanf("%d", &choice);
         if (choice < 1 || choice >4){
             printf("Choice is invalid. Out of bounds.\n");
@@ -462,7 +475,7 @@ int chefMenu(){
         printf("1. Receive order from manager\n");
         printf("2. Cook N Dishes\n");
         printf("3. Pack Food\n");
-        printf("4. Exit\n");
+        printf("4. Exit\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         if (choice < 1 || choice > 4){
@@ -824,10 +837,11 @@ int main(){
 
     }while(nDishes > 3 || nDishes < 1);
     while(startGame){
+        clearScreen();
         int choice = mainMenu();
         bool goBackToMenu = false;
         while(goBackToMenu == false){
-
+            clearScreen();
             if (countCustomersServedForTheDay(listOfOrders) == 10){
                 printf("Reached maximum number of customers for the day.\n");
                 closeRestaurant(listOfOrders);
@@ -890,6 +904,10 @@ int main(){
                 }else if(chefChoice == 4){
                     goBackToMenu = true;
                 }
+            }else if(choice ==4){
+                startGame = false;
+                goBackToMenu = true;
+
             }
             
 
