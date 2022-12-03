@@ -799,6 +799,7 @@ int countDishesServedForTheDay(int orderArr[MAXROW][14]){
     
 
 int main(){
+    clearScreen();
     //FOOD
     char food[5][15] = {
         "Chicken",
